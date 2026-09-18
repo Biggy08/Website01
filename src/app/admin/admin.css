@@ -1,0 +1,51 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--primary-color);
+}
+
+.admin-sidebar {
+  width: 250px;
+  background-color: var(--secondary-color);
+  padding: 2rem 1rem;
+  border-right: 1px solid #30363d;
+}
+
+.admin-sidebar h2 {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: var(--accent-color);
+  text-align: center;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-link {
+  color: var(--text-main);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-link:hover {
+  background-color: rgba(88, 166, 255, 0.1);
+  color: var(--accent-color);
+}
+
+.admin-main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.admin-card {
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid #30363d;
+}

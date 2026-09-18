@@ -1,0 +1,41 @@
+:root {
+  --primary-color: #0d1117;
+  --secondary-color: #161b22;
+  --text-main: #c9d1d9;
+  --accent-color: #58a6ff;
+  --font-family: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--primary-color);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  line-height: 1.6;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 3rem;
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1.25rem;
+  max-width: 600px;
+}
