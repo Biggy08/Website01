@@ -22,12 +22,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider>
           <AuthProvider>
-            <div style={{ position: "absolute", top: "1rem", right: "1rem", display: "flex", gap: "1rem", zIndex: 1000, alignItems: "center" }}>
-              <a href="/admin/dashboard" style={{ color: "var(--text-main)", textDecoration: "none", fontSize: "0.9rem", fontWeight: "bold" }}>
-                🔒 Admin
-              </a>
-              <ThemeToggle />
-            </div>
             {children}
           </AuthProvider>
         </ThemeProvider>
