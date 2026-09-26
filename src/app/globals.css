@@ -392,3 +392,245 @@ a {
   background-color: var(--secondary-color);
 }
 
+/* ==========================================================================
+   Leadership & Vision Section
+   ========================================================================== */
+.vision-hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 3.5rem;
+}
+
+.vision-quote-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.quote-ornament {
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--accent-color);
+  font-family: Georgia, serif;
+  opacity: 0.6;
+  margin-bottom: -1rem;
+}
+
+.vision-quote {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--text-main) 40%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.vision-supporting-text {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+.vision-pillars {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pillar-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 9999px;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--border-color);
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.vision-image-col {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  aspect-ratio: 16 / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vision-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.vision-image-col:hover .vision-image {
+  transform: scale(1.03);
+}
+
+.vision-image-caption {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(11, 15, 25, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #f1f5f9;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Leader Message Card */
+.leader-message-card {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2.5rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 2.75rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.leader-message-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-color), transparent);
+}
+
+.leader-profile-pane {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-right: 1px solid var(--border-color);
+  padding-right: 2rem;
+}
+
+.leader-avatar-wrapper {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  margin-bottom: 1.25rem;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--accent-color), transparent);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.leader-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--secondary-color);
+  border: 2px solid var(--primary-color);
+}
+
+.leader-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: var(--text-main);
+}
+
+.leader-role {
+  font-size: 0.85rem;
+  color: var(--accent-color);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.leader-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--border-color);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.leader-content-pane {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.leader-section-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-color);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.leader-message-text {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-main);
+  font-style: normal;
+  position: relative;
+}
+
+.leader-signature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .vision-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .leader-message-card {
+    grid-template-columns: 1fr;
+    padding: 2rem;
+    gap: 2rem;
+  }
+
+  .leader-profile-pane {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding-right: 0;
+    padding-bottom: 1.75rem;
+  }
+}
+

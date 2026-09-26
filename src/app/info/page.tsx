@@ -2,9 +2,13 @@ import Navbar from "@/components/Navbar";
 import ContactForm from "@/components/ContactForm";
 import { prisma } from "@/lib/prisma";
 
+import { parseLeaderInfo, ensurePublicAssets } from "@/lib/leader";
+
 export const dynamic = "force-dynamic";
 
 export default async function InfoPage() {
+  ensurePublicAssets();
+
   // Fetch real team members from database if any exist, fallback to curated placeholders
   let dbTeamMembers: Array<{ id: number; name: string; role: string; bio: string | null }> = [];
   let dbCompanyInfo: {
@@ -12,6 +16,7 @@ export default async function InfoPage() {
     email?: string | null;
     phone?: string | null;
     address?: string | null;
+    linkedinLink?: string | null;
   } | null = null;
 
   try {
@@ -24,6 +29,8 @@ export default async function InfoPage() {
   } catch (err) {
     console.warn("Could not query DB directly during render, using fallback data:", err);
   }
+
+  const leaderInfo = parseLeaderInfo(dbCompanyInfo);
 
   const placeholderMembers = [
     {
@@ -164,6 +171,83 @@ export default async function InfoPage() {
       <Navbar showBackHome={true} />
 
       <main className="sections-wrapper">
+        {/* SECTION: GUIDING VISION & LEADERSHIP (ABOVE OVERVIEW & MISSION) */}
+        <section id="vision" className="content-section">
+          {/* Top Half: Big Quote on Left, Image on Right */}
+          <div className="vision-hero-grid">
+            <div className="vision-quote-col">
+              <span className="section-tag" style={{ width: "fit-content" }}>
+                Guiding Ethos
+              </span>
+              <div className="quote-ornament">&ldquo;</div>
+              <h2 className="vision-quote">
+                &ldquo;{leaderInfo.quote}&rdquo;
+              </h2>
+              <p className="vision-supporting-text">
+                {leaderInfo.supportingText}
+              </p>
+              <div className="vision-pillars">
+                <span className="pillar-chip">
+                  <span>✓</span> Possible &mdash; Technically Feasible
+                </span>
+                <span className="pillar-chip">
+                  <span>✓</span> Practical &mdash; Operationally Sound
+                </span>
+                <span className="pillar-chip">
+                  <span>✓</span> Plausible &mdash; Scalable &amp; Valuable
+                </span>
+              </div>
+            </div>
+
+            <div className="vision-image-col">
+              <img
+                src="/images/tech_vision.jpg"
+                alt="Digital Architecture & Modern Engineering"
+                className="vision-image"
+              />
+              <div className="vision-image-caption">
+                <span>⚡</span>
+                <span>Architected for Scale &amp; Resilience</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Half: Message from Our Leaders */}
+          <div className="leader-message-card">
+            <div className="leader-profile-pane">
+              <div className="leader-avatar-wrapper">
+                <img
+                  src={leaderInfo.leaderAvatarUrl || "/images/leader_portrait.jpg"}
+                  alt={leaderInfo.leaderName}
+                  className="leader-avatar-img"
+                />
+              </div>
+              <h3 className="leader-name">{leaderInfo.leaderName}</h3>
+              <p className="leader-role">{leaderInfo.leaderRole}</p>
+              <span className="leader-badge">
+                <span>🛡️</span>
+                <span>Leadership</span>
+              </span>
+            </div>
+
+            <div className="leader-content-pane">
+              <div className="leader-section-title">
+                <span>✦</span>
+                <span>A Message from Our Leadership</span>
+              </div>
+              <blockquote className="leader-message-text">
+                &ldquo;{leaderInfo.leaderMessage}&rdquo;
+              </blockquote>
+              <div className="leader-signature">
+                <span>&mdash;</span>
+                <strong>{leaderInfo.leaderName}</strong>
+                <span>•</span>
+                <span>{leaderInfo.leaderRole}, Aadhi Code</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* SECTION 1: ABOUT US */}
         <section id="about" className="content-section">
           <div className="section-header">

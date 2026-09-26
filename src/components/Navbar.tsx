@@ -26,6 +26,11 @@ export default function Navbar({ showBackHome = true }: NavbarProps) {
               </li>
             )}
             <li>
+              <a href="#vision" className="nav-item-link">
+                Vision
+              </a>
+            </li>
+            <li>
               <a href="#about" className="nav-item-link">
                 About Us
               </a>

@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
+import { serializeLeaderInfo } from "@/lib/leader";
+
 async function requireAuth() {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -20,20 +22,38 @@ export async function updateCompanySettings(formData: FormData) {
   const phone = formData.get("phone") as string;
   const address = formData.get("address") as string;
 
+  const quote = (formData.get("leaderQuote") as string) || undefined;
+  const supportingText = (formData.get("leaderSupportingText") as string) || undefined;
+  const leaderName = (formData.get("leaderName") as string) || undefined;
+  const leaderRole = (formData.get("leaderRole") as string) || undefined;
+  const leaderAvatarUrl = (formData.get("leaderAvatarUrl") as string) || undefined;
+  const leaderMessage = (formData.get("leaderMessage") as string) || undefined;
+
+  const linkedinLink = serializeLeaderInfo({
+    quote,
+    supportingText,
+    leaderName,
+    leaderRole,
+    leaderAvatarUrl,
+    leaderMessage,
+  });
+
   await prisma.companyInfo.upsert({
     where: { id: 1 },
-    update: { missionStatement, email, phone, address },
+    update: { missionStatement, email, phone, address, linkedinLink },
     create: {
       id: 1,
       missionStatement,
       email,
       phone,
-      address
-    }
+      address,
+      linkedinLink,
+    },
   });
 
   revalidatePath("/admin/settings");
   revalidatePath("/");
+  revalidatePath("/info");
 }
 
 export async function createTeamMember(formData: FormData) {
