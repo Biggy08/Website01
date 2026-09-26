@@ -11,6 +11,7 @@ export default function AdminLayout({
       <aside className="admin-sidebar">
         <h2>Aadi Code Pvt Ltd Admin</h2>
         <nav className="admin-nav">
+          <Link href="/" className="nav-link">Home</Link>
           <Link href="/admin/dashboard" className="nav-link">Dashboard</Link>
           <Link href="/admin/team" className="nav-link">Team Members</Link>
           <Link href="/admin/projects" className="nav-link">Projects</Link>

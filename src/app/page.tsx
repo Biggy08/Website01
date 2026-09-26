@@ -5,30 +5,15 @@ import BrandLogo from "@/components/BrandLogo";
 export default function Home() {
   return (
     <>
-      <header style={{ position: "absolute", top: "1.25rem", right: "1.5rem", display: "flex", gap: "1rem", zIndex: 100, alignItems: "center" }}>
-        <Link
-          href="/admin/dashboard"
-          style={{
-            color: "var(--text-muted)",
-            textDecoration: "none",
-            fontSize: "0.875rem",
-            fontWeight: "600",
-            padding: "0.4rem 0.75rem",
-            borderRadius: "6px",
-            border: "1px solid var(--border-color)",
-            backgroundColor: "var(--secondary-color)",
-          }}
-        >
-          🔒 Admin
-        </Link>
+      <header style={{ position: "absolute", top: "1.25rem", right: "1.5rem", zIndex: 100 }}>
         <ThemeToggle />
       </header>
 
       <main className="main-content">
         <BrandLogo className="home-logo" />
         <div className="hero-badge">
-          <span>🚀</span>
-          <span>Digital Excellence • Baluwatar, Kathmandu</span>
+          <span>{"\u{1F680}"}</span>
+          <span>Digital Excellence {"\u2022"} Baluwatar, Kathmandu</span>
         </div>
 
         <h1 className="hero-title">
@@ -43,7 +28,7 @@ export default function Home() {
         <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "center" }}>
           <Link href="/info" className="btn-primary" id="explore-info-btn">
             <span>Explore Company Info</span>
-            <span aria-hidden="true">→</span>
+            <span aria-hidden="true">{"\u2192"}</span>
           </Link>
 
           <Link href="/info#contact" className="btn-secondary">
