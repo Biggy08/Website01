@@ -188,6 +188,18 @@ a {
   min-width: 0;
   white-space: nowrap;
 }
+.admin-entry-trigger {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+.admin-entry-trigger:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+}
 .brand-logo { width: 34px; height: 34px; flex: 0 0 auto; }
 .theme-logo { position: relative; display: inline-block; }
 .theme-logo img { width: 100%; height: 100%; object-fit: contain; }

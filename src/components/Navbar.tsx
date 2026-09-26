@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
-import SiteIcon from "./SiteIcon";
 import BrandLogo from "./BrandLogo";
 
 interface NavbarProps {
@@ -10,13 +11,40 @@ interface NavbarProps {
 }
 
 export default function Navbar({ showBackHome = true }: NavbarProps) {
+  const router = useRouter();
+  const brandClickCount = useRef(0);
+  const brandClickTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  function handleBrandClick() {
+    brandClickCount.current += 1;
+
+    if (brandClickTimeout.current) {
+      clearTimeout(brandClickTimeout.current);
+    }
+
+    if (brandClickCount.current === 3) {
+      brandClickCount.current = 0;
+      router.push("/admin/login");
+      return;
+    }
+
+    brandClickTimeout.current = setTimeout(() => {
+      brandClickCount.current = 0;
+    }, 700);
+  }
+
   return (
     <header className="top-navbar">
       <div className="navbar-container">
-        <Link href="/" className="nav-brand">
+        <button
+          type="button"
+          className="nav-brand admin-entry-trigger"
+          onClick={handleBrandClick}
+          aria-label="Aadi Code Pvt Ltd"
+        >
           <BrandLogo />
           <span>Aadi Code Pvt Ltd</span>
-        </Link>
+        </button>
 
         <nav aria-label="Sections Navigation">
           <ul className="nav-links">
@@ -71,23 +99,6 @@ export default function Navbar({ showBackHome = true }: NavbarProps) {
         </nav>
 
         <div className="nav-actions">
-          <Link
-            href="/admin/dashboard"
-            style={{
-              fontSize: "0.85rem",
-              fontWeight: "600",
-              color: "var(--text-muted)",
-              padding: "0.4rem 0.6rem",
-              borderRadius: "6px",
-              border: "1px solid var(--border-color)",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.3rem",
-            }}
-          >
-            <SiteIcon name="lock" size={16} />
-            <span>Admin</span>
-          </Link>
           <ThemeToggle />
         </div>
       </div>
