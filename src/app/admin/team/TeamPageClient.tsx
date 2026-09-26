@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import TeamMemberForm from "@/components/TeamMemberForm";
 import { deleteTeamMember } from "@/app/actions";
 
@@ -9,17 +10,19 @@ type TeamMember = {
   name: string;
   role: string;
   bio: string | null;
+  imageUrl?: string | null;
 };
 
 export default function TeamPageClient({ members }: { members: TeamMember[] }) {
   const [editingMember, setEditingMember] = useState<TeamMember | undefined>(undefined);
   const [isAdding, setIsAdding] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const handleDelete = (id: number) => {
     if (confirm("Are you sure you want to delete this member?")) {
       startTransition(() => {
-        deleteTeamMember(id);
+        deleteTeamMember(id).then(() => router.refresh());
       });
     }
   };
@@ -56,6 +59,7 @@ export default function TeamPageClient({ members }: { members: TeamMember[] }) {
           members.map(member => (
             <div key={member.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem", backgroundColor: "var(--primary-color)", border: "1px solid var(--border-color)", borderRadius: "8px" }}>
               <div>
+                {member.imageUrl && <img src={member.imageUrl} alt="" style={{ width: 48, height: 48, objectFit: "cover", borderRadius: "50%" }} />}
                 <h4 style={{ color: "var(--accent-color)" }}>{member.name}</h4>
                 <p style={{ fontSize: "0.9rem" }}>{member.role}</p>
                 {member.bio && <p style={{ fontSize: "0.85rem", marginTop: "0.5rem", opacity: 0.8 }}>{member.bio}</p>}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
+import BrandLogo from "@/components/BrandLogo";
 
 export default function Home() {
   return (
@@ -24,13 +25,14 @@ export default function Home() {
       </header>
 
       <main className="main-content">
+        <BrandLogo className="home-logo" />
         <div className="hero-badge">
           <span>🚀</span>
           <span>Digital Excellence • Baluwatar, Kathmandu</span>
         </div>
 
         <h1 className="hero-title">
-          Welcome to <span className="hero-title-highlight">Aadhi Code</span>
+          Welcome to <span className="hero-title-highlight">Aadi Code Pvt Ltd</span>
         </h1>
 
         <p className="hero-subtitle">

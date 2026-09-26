@@ -57,6 +57,7 @@ export default function LoginPage() {
             />
           </div>
           <button type="submit" className="login-button">Sign In</button>
+          <p style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>Default local login: admin@aadhicode.com / password123</p>
         </form>
       </div>
     </div>

@@ -3,6 +3,8 @@ import ContactForm from "@/components/ContactForm";
 import { prisma } from "@/lib/prisma";
 
 import { parseLeaderInfo, ensurePublicAssets } from "@/lib/leader";
+import SiteIcon from "@/components/SiteIcon";
+import VisionLogoCard from "@/components/VisionLogoCard";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +12,9 @@ export default async function InfoPage() {
   ensurePublicAssets();
 
   // Fetch real team members from database if any exist, fallback to curated placeholders
-  let dbTeamMembers: Array<{ id: number; name: string; role: string; bio: string | null }> = [];
+  let dbTeamMembers: Array<{ id: number; name: string; role: string; bio: string | null; imageUrl: string | null }> = [];
+  let dbProjects: Array<{ id: number; title: string; description: string; imageUrl: string | null; link: string | null }> = [];
+  let dbCollaborations: Array<{ id: number; partnerName: string; description: string | null; logoUrl: string | null }> = [];
   let dbCompanyInfo: {
     missionStatement?: string | null;
     email?: string | null;
@@ -26,6 +30,8 @@ export default async function InfoPage() {
     dbCompanyInfo = await prisma.companyInfo.findUnique({
       where: { id: 1 },
     });
+    dbProjects = await prisma.project.findMany({ orderBy: { id: "desc" } });
+    dbCollaborations = await prisma.collaboration.findMany({ orderBy: { id: "desc" } });
   } catch (err) {
     console.warn("Could not query DB directly during render, using fallback data:", err);
   }
@@ -38,24 +44,28 @@ export default async function InfoPage() {
       role: "Lead Systems Architect & Founder",
       bio: "10+ years shaping distributed cloud architectures, scalable web microservices, and leading agile engineering teams.",
       initials: "AS",
+      imageUrl: null,
     },
     {
       name: "Prashant Karki",
       role: "Senior Full Stack Engineer",
       bio: "Specialist in React/Next.js ecosystem, TypeScript, high-throughput REST/GraphQL APIs, and database performance tuning.",
       initials: "PK",
+      imageUrl: null,
     },
     {
       name: "Samikshya Adhikari",
       role: "Product Designer & UX Researcher",
       bio: "Creating user-centric, accessible, and intuitive digital interfaces with seamless interactive experiences.",
       initials: "SA",
+      imageUrl: null,
     },
     {
       name: "Rohan Thapa",
       role: "DevOps & Cloud Security Specialist",
       bio: "Automating robust CI/CD deployment pipelines, Kubernetes orchestrations, and cloud infrastructure monitoring.",
       initials: "RT",
+      imageUrl: null,
     },
   ];
 
@@ -64,7 +74,8 @@ export default async function InfoPage() {
       ? dbTeamMembers.map((m) => ({
           name: m.name,
           role: m.role,
-          bio: m.bio || "Passionate engineer bringing solutions to life at Aadhi Code.",
+          bio: m.bio || "Passionate engineer bringing solutions to life at Aadi Code Pvt Ltd.",
+          imageUrl: m.imageUrl,
           initials: m.name
             .split(" ")
             .map((n) => n[0])
@@ -74,7 +85,7 @@ export default async function InfoPage() {
         }))
       : placeholderMembers;
 
-  const previousWorks = [
+  const fallbackPreviousWorks = [
     {
       title: "FinFlow Enterprise Banking Portal",
       client: "FinFlow Solutions",
@@ -82,6 +93,7 @@ export default async function InfoPage() {
       description:
         "Engineered a resilient high-concurrency payment and ledger processing dashboard with real-time audit logs and multi-factor authentication.",
       tags: ["Next.js", "TypeScript", "PostgreSQL", "Docker"],
+      imageUrl: null,
     },
     {
       title: "Himalayan Logistics Dispatch Tracker",
@@ -90,6 +102,7 @@ export default async function InfoPage() {
       description:
         "Real-time route optimization and freight fleet monitoring platform serving mountainous transport corridors across Nepal.",
       tags: ["React", "Node.js", "WebSockets", "Mapbox"],
+      imageUrl: null,
     },
     {
       title: "MedSync Telemedicine Suite",
@@ -98,12 +111,14 @@ export default async function InfoPage() {
       description:
         "HIPAA-compliant remote consultation platform linking certified doctors with patients across regional clinics.",
       tags: ["WebRTC", "Next.js", "Prisma", "Tailored Security"],
+      imageUrl: null,
     },
   ];
+  const previousWorks = dbProjects.length ? dbProjects.map((project) => ({ title: project.title, client: "Aadi Code Pvt Ltd", category: "Portfolio", description: project.description, tags: [], imageUrl: project.imageUrl, link: project.link })) : fallbackPreviousWorks;
 
   const currentProjects = [
     {
-      title: "Aadhi Intelligence (Aadhi AI)",
+      title: "Aadi Intelligence (Aadi AI)",
       status: "In Active Beta",
       description:
         "An automated document intelligence & semantic search pipeline tailored for multilingual legal and business archives in South Asia.",
@@ -128,27 +143,27 @@ export default async function InfoPage() {
   const manpowerCapabilities = [
     {
       domain: "Frontend & Mobile Engineering",
-      icon: "💻",
+      icon: "code" as const,
       details: "React, Next.js, React Native, TypeScript, TailwindCSS, Progressive Web Applications, and Web Performance Auditing.",
     },
     {
       domain: "Backend, APIs & Databases",
-      icon: "⚙️",
+      icon: "server" as const,
       details: "Node.js, Python FastAPI, Go, PostgreSQL, Redis, GraphQL, Prisma ORM, and secure transaction workflows.",
     },
     {
       domain: "Cloud, DevOps & SRE",
-      icon: "☁️",
+      icon: "cloud" as const,
       details: "AWS, GCP, Docker, Kubernetes, CI/CD automated test suites, Terraform IaC, and 99.9% uptime site reliability.",
     },
     {
       domain: "UI/UX & Product Design",
-      icon: "🎨",
+      icon: "palette" as const,
       details: "Design systems, wireframing, high-fidelity prototyping, accessibility testing (WCAG), and responsive UX ergonomics.",
     },
   ];
 
-  const collaborations = [
+  const fallbackCollaborations = [
     {
       name: "Kathmandu Tech Incubator",
       type: "Academic & Research Partner",
@@ -165,6 +180,7 @@ export default async function InfoPage() {
       description: "Actively contributing to open-source developer tooling, libraries, and developer-first documentation.",
     },
   ];
+  const collaborations = dbCollaborations.length ? dbCollaborations.map((item) => ({ name: item.partnerName, type: "Partner", description: item.description || "", logoUrl: item.logoUrl })) : fallbackCollaborations;
 
   return (
     <div>
@@ -199,17 +215,7 @@ export default async function InfoPage() {
               </div>
             </div>
 
-            <div className="vision-image-col">
-              <img
-                src="/images/tech_vision.jpg"
-                alt="Digital Architecture & Modern Engineering"
-                className="vision-image"
-              />
-              <div className="vision-image-caption">
-                <span>⚡</span>
-                <span>Architected for Scale &amp; Resilience</span>
-              </div>
-            </div>
+            <div className="vision-image-col"><VisionLogoCard /></div>
           </div>
 
           {/* Bottom Half: Message from Our Leaders */}
@@ -217,7 +223,7 @@ export default async function InfoPage() {
             <div className="leader-profile-pane">
               <div className="leader-avatar-wrapper">
                 <img
-                  src={leaderInfo.leaderAvatarUrl || "/images/leader_portrait.jpg"}
+                  src={leaderInfo.leaderAvatarUrl || "/images/founder.png"}
                   alt={leaderInfo.leaderName}
                   className="leader-avatar-img"
                 />
@@ -225,14 +231,14 @@ export default async function InfoPage() {
               <h3 className="leader-name">{leaderInfo.leaderName}</h3>
               <p className="leader-role">{leaderInfo.leaderRole}</p>
               <span className="leader-badge">
-                <span>🛡️</span>
+                <SiteIcon name="shield" size={15} />
                 <span>Leadership</span>
               </span>
             </div>
 
             <div className="leader-content-pane">
               <div className="leader-section-title">
-                <span>✦</span>
+                <SiteIcon name="bolt" size={15} />
                 <span>A Message from Our Leadership</span>
               </div>
               <blockquote className="leader-message-text">
@@ -242,7 +248,7 @@ export default async function InfoPage() {
                 <span>&mdash;</span>
                 <strong>{leaderInfo.leaderName}</strong>
                 <span>•</span>
-                <span>{leaderInfo.leaderRole}, Aadhi Code</span>
+                <span>{leaderInfo.leaderRole}, Aadi Code Pvt Ltd</span>
               </div>
             </div>
           </div>
@@ -252,30 +258,30 @@ export default async function InfoPage() {
         <section id="about" className="content-section">
           <div className="section-header">
             <span className="section-tag">01 • Overview & Mission</span>
-            <h2 className="section-title">About Aadhi Code</h2>
+            <h2 className="section-title">About Aadi Code Pvt Ltd</h2>
             <p className="section-description">
               {dbCompanyInfo?.missionStatement ||
-                "Aadhi Code helps organizations turn ambitious ideas into dependable digital products through thoughtful engineering, modern architecture, and collaborative craftsmanship."}
+                "Aadi Code Pvt Ltd helps organizations turn ambitious ideas into dependable digital products through thoughtful engineering, modern architecture, and collaborative craftsmanship."}
             </p>
           </div>
 
           <div className="grid-3">
             <div className="info-card">
-              <div className="card-icon">🎯</div>
+              <div className="card-icon"><SiteIcon name="target" size={26} /></div>
               <h3 className="card-title">Our Mission</h3>
               <p className="card-text">
                 To build dependable, accessible, and high-performance digital tools that empower businesses to scale sustainably and serve their communities effectively.
               </p>
             </div>
             <div className="info-card">
-              <div className="card-icon">💡</div>
+              <div className="card-icon"><SiteIcon name="idea" size={26} /></div>
               <h3 className="card-title">Engineering Philosophy</h3>
               <p className="card-text">
                 We prioritize clean code, intuitive user experiences, robust test coverage, and forward-looking system architecture over short-lived shortcuts.
               </p>
             </div>
             <div className="info-card">
-              <div className="card-icon">📍</div>
+              <div className="card-icon"><SiteIcon name="pin" size={26} /></div>
               <h3 className="card-title">Local Presence, Global Standards</h3>
               <p className="card-text">
                 Headquartered in <strong>Baluwatar, Kathmandu, Nepal</strong>, our team delivers software solutions aligned with international benchmarks for quality and security.
@@ -297,7 +303,7 @@ export default async function InfoPage() {
           <div className="grid-4">
             {teamList.map((member, idx) => (
               <div key={idx} className="info-card">
-                <div
+                {member.imageUrl ? <img src={member.imageUrl} alt={member.name} className="member-avatar" /> : <div
                   style={{
                     width: "56px",
                     height: "56px",
@@ -314,7 +320,7 @@ export default async function InfoPage() {
                   }}
                 >
                   {member.initials}
-                </div>
+                </div>}
                 <h3 className="card-title" style={{ fontSize: "1.1rem" }}>
                   {member.name}
                 </h3>
@@ -346,6 +352,7 @@ export default async function InfoPage() {
                   {work.category}
                 </span>
                 <h3 className="card-title">{work.title}</h3>
+                {work.imageUrl && <img src={work.imageUrl} alt="" className="work-image" />}
                 <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: "0.75rem" }}>
                   Client: <strong>{work.client}</strong>
                 </p>
@@ -355,7 +362,7 @@ export default async function InfoPage() {
                     <span key={tIdx} className="badge-tag">
                       {tag}
                     </span>
-                  ))}
+                ))}
                 </div>
               </div>
             ))}
@@ -433,7 +440,7 @@ export default async function InfoPage() {
             {manpowerCapabilities.map((cap, idx) => (
               <div key={idx} className="info-card" style={{ flexDirection: "row", gap: "1.25rem", alignItems: "flex-start" }}>
                 <div className="card-icon" style={{ flexShrink: 0, margin: 0 }}>
-                  {cap.icon}
+                  <SiteIcon name={cap.icon} size={26} />
                 </div>
                 <div>
                   <h3 className="card-title">{cap.domain}</h3>
@@ -482,12 +489,12 @@ export default async function InfoPage() {
             <div>
               <h3 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Let&apos;s Build Together</h3>
               <p style={{ color: "var(--text-muted)", marginBottom: "2rem", lineHeight: 1.6 }}>
-                Reach out to schedule a consultation, request technical manpower details, or discuss how Aadhi Code can elevate your digital roadmap.
+                Reach out to schedule a consultation, request technical manpower details, or discuss how Aadi Code Pvt Ltd can elevate your digital roadmap.
               </p>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  <span style={{ fontSize: "1.25rem" }}>📍</span>
+                  <SiteIcon name="pin" size={20} />
                   <div>
                     <div style={{ fontWeight: "600", fontSize: "0.9rem" }}>Location</div>
                     <div style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>
@@ -524,7 +531,7 @@ export default async function InfoPage() {
       </main>
 
       <footer className="site-footer">
-        <p>© {new Date().getFullYear()} Aadhi Code. All rights reserved. Baluwatar, Kathmandu, Nepal.</p>
+        <p>© {new Date().getFullYear()} Aadi Code Pvt Ltd. All rights reserved. Baluwatar, Kathmandu, Nepal.</p>
       </footer>
     </div>
   );

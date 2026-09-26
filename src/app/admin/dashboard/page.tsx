@@ -6,7 +6,7 @@ export default function AdminDashboard() {
   return (
     <div style={{ padding: "2rem", color: "var(--text-main)" }}>
       <h1>Admin Dashboard</h1>
-      <p>Welcome to the Aadhi Code admin panel!</p>
+      <p>Welcome to the Aadi Code Pvt Ltd admin panel!</p>
       <button 
         onClick={() => signOut()}
         style={{

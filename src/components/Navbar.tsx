@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import SiteIcon from "./SiteIcon";
+import BrandLogo from "./BrandLogo";
 
 interface NavbarProps {
   showBackHome?: boolean;
@@ -12,8 +14,8 @@ export default function Navbar({ showBackHome = true }: NavbarProps) {
     <header className="top-navbar">
       <div className="navbar-container">
         <Link href="/" className="nav-brand">
-          <span style={{ fontSize: "1.35rem" }}>⚡</span>
-          <span>Aadhi Code</span>
+          <BrandLogo />
+          <span>Aadi Code Pvt Ltd</span>
         </Link>
 
         <nav aria-label="Sections Navigation">
@@ -83,7 +85,7 @@ export default function Navbar({ showBackHome = true }: NavbarProps) {
               gap: "0.3rem",
             }}
           >
-            <span>🔒</span>
+            <SiteIcon name="lock" size={16} />
             <span>Admin</span>
           </Link>
           <ThemeToggle />

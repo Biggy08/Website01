@@ -8,6 +8,7 @@ type TeamMember = {
   name: string;
   role: string;
   bio: string | null;
+  imageUrl?: string | null;
 };
 
 export default function TeamMemberForm({ member, onCancel }: { member?: TeamMember, onCancel: () => void }) {
@@ -35,12 +36,18 @@ export default function TeamMemberForm({ member, onCancel }: { member?: TeamMemb
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem", backgroundColor: "var(--primary-color)", padding: "1.5rem", borderRadius: "8px", border: "1px solid var(--border-color)", marginBottom: "2rem" }}>
+    <form onSubmit={handleSubmit} encType="multipart/form-data" style={{ display: "flex", flexDirection: "column", gap: "1rem", backgroundColor: "var(--primary-color)", padding: "1.5rem", borderRadius: "8px", border: "1px solid var(--border-color)", marginBottom: "2rem" }}>
       <h3>{member ? "Edit Team Member" : "Add New Team Member"}</h3>
       
       <div className="form-group">
         <label>Name *</label>
         <input name="name" defaultValue={member?.name} required minLength={2} />
+      </div>
+      {member?.imageUrl && <input type="hidden" name="imageUrl" value={member.imageUrl} />}
+      <div className="form-group">
+        <label>Profile photo</label>
+        <input name="image" type="file" accept="image/png,image/jpeg,image/webp" />
+        <small>Optional; PNG, JPG, or WebP, up to 5MB.</small>
       </div>
 
       <div className="form-group">

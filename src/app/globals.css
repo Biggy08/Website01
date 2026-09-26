@@ -7,6 +7,7 @@
   --accent-color: #2563eb;
   --accent-hover: #1d4ed8;
   --accent-glow: rgba(37, 99, 235, 0.15);
+  --icon-color: #111111;
   --border-color: #e2e8f0;
   --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --nav-bg: rgba(255, 255, 255, 0.85);
@@ -24,6 +25,7 @@
   --accent-color: #3b82f6;
   --accent-hover: #60a5fa;
   --accent-glow: rgba(59, 130, 246, 0.25);
+  --icon-color: #ffffff;
   --border-color: #1f293d;
   --nav-bg: rgba(11, 15, 25, 0.85);
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
@@ -88,6 +90,7 @@ a {
   font-weight: 500;
   margin-bottom: 1.5rem;
 }
+.home-logo { width: 92px; height: 92px; margin-bottom: 1.25rem; }
 
 .hero-title {
   font-size: clamp(2.5rem, 6vw, 4.25rem);
@@ -169,10 +172,10 @@ a {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0.75rem 1.5rem;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .nav-brand {
@@ -180,33 +183,65 @@ a {
   align-items: center;
   gap: 0.5rem;
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: clamp(0.85rem, 1.25vw, 1.05rem);
   color: var(--text-main);
+  min-width: 0;
+  white-space: nowrap;
 }
+.brand-logo { width: 34px; height: 34px; flex: 0 0 auto; }
+.theme-logo { position: relative; display: inline-block; }
+.theme-logo img { width: 100%; height: 100%; object-fit: contain; }
+.theme-logo-dark { display: none; }
+:root.dark .theme-logo-light { display: none; }
+:root.dark .theme-logo-dark {
+  display: block;
+  /* Removes the baked-in near-black image field so the white mark sits on the active site surface. */
+  mix-blend-mode: screen;
+}
+.site-icon { color: var(--icon-color); flex: 0 0 auto; }
 
 .nav-links {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   list-style: none;
+  justify-content: flex-end;
   overflow-x: auto;
   padding: 0.25rem 0;
+  scrollbar-width: none;
 }
+.nav-links::-webkit-scrollbar { display: none; }
+.navbar-container nav { min-width: 0; overflow: hidden; }
 
 .nav-item-link {
-  padding: 0.4rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  position: relative;
+  display: inline-flex;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--text-muted);
-  transition: all 0.15s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
   white-space: nowrap;
 }
 
 .nav-item-link:hover {
-  color: var(--accent-color);
-  background-color: var(--secondary-color);
+  color: var(--text-main);
+  background-color: var(--card-bg);
+  box-shadow: 0 4px 12px var(--accent-glow);
+  transform: translateY(-1px);
 }
+.nav-item-link::after {
+  content: "";
+  position: absolute;
+  left: 22%; right: 22%; bottom: 3px;
+  height: 2px;
+  border-radius: 99px;
+  background: var(--accent-color);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+.nav-item-link:hover::after { transform: scaleX(1); }
 
 .nav-actions {
   display: flex;
@@ -305,8 +340,10 @@ a {
   justify-content: center;
   font-size: 1.5rem;
   margin-bottom: 1.25rem;
-  color: var(--accent-color);
+  color: var(--icon-color);
 }
+.member-avatar { width: 56px; height: 56px; object-fit: cover; border-radius: 50%; border: 2px solid var(--icon-color); margin-bottom: 1rem; }
+.work-image { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin: 0.75rem 0; }
 
 .card-title {
   font-size: 1.25rem;
@@ -462,7 +499,9 @@ a {
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border-color);
   background-color: var(--card-bg);
-  aspect-ratio: 16 / 10;
+  width: min(100%, 390px);
+  justify-self: end;
+  aspect-ratio: 4 / 5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -474,6 +513,15 @@ a {
   object-fit: cover;
   transition: transform 0.4s ease;
 }
+.vision-logo-card { width: 100%; height: 100%; border: 0; padding: 0; background: transparent; cursor: pointer; perspective: 1200px; color: var(--text-main); }
+.vision-logo-card-inner { display: block; position: relative; width: 100%; height: 100%; transition: transform .7s; transform-style: preserve-3d; }
+.vision-logo-card.is-flipped .vision-logo-card-inner { transform: rotateY(180deg); }
+.vision-logo-face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; backface-visibility: hidden; }
+.vision-logo-front { background: var(--secondary-color); }
+.vision-logo { width: min(76%, 260px); height: 190px; }
+.vision-logo-back { transform: rotateY(180deg); background: var(--card-bg); gap: 0; }
+.vision-logo-back iframe { width: 100%; height: calc(100% - 34px); border: 0; }
+.vision-logo-back span, .vision-logo-front > span { font-size: .78rem; color: var(--text-muted); padding: .5rem; }
 
 .vision-image-col:hover .vision-image {
   transform: scale(1.03);
@@ -615,10 +663,15 @@ a {
 }
 
 @media (max-width: 900px) {
+  .navbar-container { grid-template-columns: auto minmax(0, 1fr); gap: .75rem; }
+  .navbar-container nav { grid-column: 1 / -1; grid-row: 2; }
+  .nav-links { justify-content: flex-start; }
+  .nav-actions { grid-column: 2; justify-self: end; }
   .vision-hero-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+  .vision-image-col { justify-self: center; width: min(100%, 390px); }
 
   .leader-message-card {
     grid-template-columns: 1fr;
@@ -633,4 +686,3 @@ a {
     padding-bottom: 1.75rem;
   }
 }
-

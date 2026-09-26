@@ -20,7 +20,7 @@ export default async function SettingsPage() {
         </p>
       </div>
 
-      <form action={updateCompanySettings} style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+      <form action={updateCompanySettings} encType="multipart/form-data" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
         
         {/* SECTION A: GUIDING QUOTE & SUPPORTING STATEMENTS */}
         <div className="admin-card">
@@ -147,8 +147,13 @@ export default async function SettingsPage() {
                 }}
               />
               <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.25rem", display: "block" }}>
-                Default placeholder: /images/leader_portrait.jpg
+                Default photo: /images/founder.png
               </span>
+            </div>
+            <div className="form-group" style={{ margin: 0 }}>
+              <label style={{ fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.35rem", display: "block" }}>Upload founder photo</label>
+              <input name="leaderAvatar" type="file" accept="image/png,image/jpeg,image/webp" />
+              <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.25rem", display: "block" }}>Optional; PNG, JPG, or WebP up to 5MB. This replaces the URL above.</span>
             </div>
 
             <div className="form-group" style={{ margin: 0 }}>

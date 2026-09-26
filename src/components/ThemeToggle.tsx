@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "./ThemeProvider";
+import SiteIcon from "./SiteIcon";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
@@ -18,7 +19,8 @@ export default function ThemeToggle() {
         fontWeight: "bold",
       }}
     >
-      {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+      <span style={{ display: "inline-flex", verticalAlign: "middle", marginRight: "0.4rem" }}><SiteIcon name={theme === "light" ? "moon" : "sun"} size={16} /></span>
+      {theme === "light" ? "Dark Mode" : "Light Mode"}
     </button>
   );
 }
